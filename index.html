@@ -5,6 +5,24 @@
   <title>hello</title>
 </head>
 <body>
-  <h1>哈哈哈</h1>
+  <div id="btn_wrap">
+    <button data-id="0">石头</button>
+    <button data-id="1">剪刀</button>
+    <button data-id="2">布</button>
+  </div>
+  <div id="result_wrap"></div>
 </body>
+<script>
+  const btnWrap = document.getElementById('btn_wrap');
+  btnWrap.onclick = function (e) {
+    const { nodeName, dataset } = e.target;
+    if (nodeName.toLowerCase() === 'button') {
+      console.log();
+      fetch(location.origin + '/game?id=' + dataset.id )
+        .then(res => {
+          console.log(res);
+        })
+    }
+  }
+</script>
 </html>
