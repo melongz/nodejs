@@ -18,11 +18,10 @@ http
         .pipe(res);
     }
     if (pathname === '/game') {
-      res.writeHead(200);
+      res.writeHead(200, {'Content-Type': 'text/plain;charset=utf-8'});
       const key = querystring.parse(query).id;
       const result = rule(key);
-      console.log(result);
-      res.end(result);
+      res.end(JSON.stringify(result));
     }
   })
   .listen(3000);
