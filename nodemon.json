@@ -1,0 +1,12 @@
+{
+  "exec": "node index.js",
+  "restartable": "rs",
+  "verbose": true,
+  "watch": [
+    "index.js",
+    "src/"
+  ],
+  "ignore": [],
+  "delay": "1000",
+  "ext": "ts js json"
+}

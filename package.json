@@ -1,0 +1,15 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "这是一个学习node的仓库",
+  "main": "index.js",
+  "repository": "git@github.com:melongz/nodejs.git",
+  "author": "melongz <1945857873@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --config nodemon.json"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.5"
+  }
+}

@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const querystring = require('querystring');
-const rule = require('./rule');
+const rule = require('./src/rule');
 
 http
   .createServer(function (req, res) {
@@ -14,7 +14,7 @@ http
     }
     if (pathname === '/') {
       res.writeHead(200);
-      fs.createReadStream(__dirname + '/index.html')
+      fs.createReadStream(__dirname + '/source/index.html')
         .pipe(res);
     }
     if (pathname === '/game') {
