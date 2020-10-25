@@ -21,11 +21,6 @@ function noFileSlove (res) {
 
 function getHeader (pathname) {
   const extname = path.extname(pathname);
-  const MAP = {
-    '.html': 'text/html;charset=UTF-8',
-    '.css': 'text/css;charset=UTF-8',
-    '.js': 'text/js;charset=UTF-8',
-  }
   return {
     'Content-type': `${EXT_MAP[extname] || 'text/html'};charset=UTF-8`,
   };
