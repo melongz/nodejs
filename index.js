@@ -9,21 +9,20 @@ const EXT_MAP = JSON.parse(extData.toString());
 function noFileSlove (res) {
   fs.readFile('./web/pages/404/index.html', (err, fileData) => {
     if (err) {
-      res.writeHead(404);
+      res.statusCode = 404
       res.end();
     } else {
-      res.writeHead(200, {'Content-type': 'text/html;charset=UTF-8',});
+      res.statusCode = 200;
+      res.setHeader('Content-type', 'text/html;charset=UTF-8');
       res.write(fileData);
       res.end();
     }
   })
 }
 
-function getHeader (pathname) {
+function getContentType (pathname) {
   const extname = path.extname(pathname);
-  return {
-    'Content-type': `${EXT_MAP[extname] || 'text/html'};charset=UTF-8`,
-  };
+  return `${EXT_MAP[extname] || 'text/html'};charset=UTF-8`;
 }
 
 http
@@ -32,22 +31,24 @@ http
     if (reqUrl.includes('/favicon.ico')) {
       fs.readFile('./web/favicon.ico', (err, fileData) => {
         if (err) {
-          res.writeHead(404);
+          res.statusCode = 404;
           res.end();
         } else {
-          res.writeHead(200);
+          res.statusCode = 200;
           res.write(fileData);
           res.end();
         }
       })
       return;
     }
-    const { query: {name, age}, pathname, } = url.parse(reqUrl, true);
+    const urlInfo = url.parse(reqUrl, true);
+    const pathname = urlInfo.pathname === '/' ? '/home/index.html' : urlInfo.pathname;
     fs.readFile(`./web/pages${pathname}`, (err, fileData) => {
       if (err) {
         noFileSlove(res);
       } else {
-        res.writeHead(200, getHeader(pathname));
+        res.statusCode = 200;
+        res.setHeader('Content-Type', getContentType(pathname));
         res.write(fileData);
         res.end();
       }
