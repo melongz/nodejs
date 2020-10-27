@@ -2,9 +2,11 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+const mongoClient = require('mongodb');
 
 const extData = fs.readFileSync('./config/ext.json');
 const EXT_MAP = JSON.parse(extData.toString());
+const mongoUrl = 'mongodb://localhost:27017';
 const mockData = {
   status: 200,
   data: {
@@ -13,6 +15,17 @@ const mockData = {
   },
   message: '请求成功'
 }
+
+mongoClient.connect(mongoUrl, { useNewUrlParser: true }, function(err, db) {
+  if (err) throw err;
+  const dbTest = db.db('test');
+  const collMovie = dbTest.collection('movie');
+  collMovie.find({}).toArray((err, result) => {
+    console.log(333);
+    console.log(result);
+  })
+  db.close();
+});
 
 function handleNoFile (res) {
   fs.readFile('./web/pages/404/index.html', (err, fileData) => {
