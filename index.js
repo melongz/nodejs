@@ -3,10 +3,9 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 const mongoClient = require('mongodb');
-
+const {databaseUrl} = require('./config/config');
 const extData = fs.readFileSync('./config/ext.json');
 const EXT_MAP = JSON.parse(extData.toString());
-const mongoUrl = 'mongodb://localhost:27017';
 const mockData = {
   status: 200,
   data: {
@@ -16,12 +15,11 @@ const mockData = {
   message: '请求成功'
 }
 
-mongoClient.connect(mongoUrl, { useNewUrlParser: true }, function(err, db) {
+mongoClient.connect(databaseUrl, { useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
   const dbTest = db.db('test');
-  const collMovie = dbTest.collection('movie');
+  const collMovie = dbTest.collection('userInfo');
   collMovie.find({}).toArray((err, result) => {
-    console.log(333);
     console.log(result);
   })
   db.close();
