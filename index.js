@@ -2,7 +2,9 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+const events = require('events');
 const mongoClient = require('mongodb');
+
 const {databaseUrl} = require('./config/config');
 const extData = fs.readFileSync('./config/ext.json');
 const EXT_MAP = JSON.parse(extData.toString());
@@ -14,6 +16,12 @@ const mockData = {
   },
   message: '请求成功'
 }
+
+const eventEmitter = new events.EventEmitter();
+
+eventEmitter.on('show', data => {
+  console.log(data);
+})
 
 mongoClient.connect(databaseUrl, { useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
@@ -101,6 +109,7 @@ function getContentType (pathname) {
 
 http
   .createServer(((req, res) => {
+    eventEmitter.emit('show', 123)
     const reqUrl = req.url;
     const urlInfo = url.parse(reqUrl, true);
     const pathname = urlInfo.pathname;
