@@ -10,18 +10,46 @@ const static = require('koa-static'); // 加载静态资源
 const bodyparser = require('koa-bodyparser'); // 解析post请求参数
 
 const app = new Koa();
-const router = new Router();
+const routers = new Router();
 
-router.get('/', async (ctx, next) => {
+routers
+  .get('/', async (ctx, next) => {
+    ctx.body = fs.readFileSync('./static/index.html', 'utf8');
+  })
+  .post('/api/personInfo', async (ctx, next) => {
+    ctx.body = ctx.request.body;
+  })
+
+app.use(async (ctx, next) => {
+  const start = new Date().getTime();
+  console.log('开始请求');
   await next();
-  ctx.body = fs.readFileSync('./web/pages/home/index.html', 'utf8');
+  const time = new Date().getTime() - start;
+  console.log('请求花费时间：', ctx.url,  time);
+});
+
+
+app.use(async (ctx, next) => {
+  console.log(2);
+  await next();
+  console.log(3);
 })
 
-// app.use(static(__dirname, '/static'));
+app.use(async (ctx, next) => {
+  console.log(4);
+  await next();
+  console.log(5);
+})
 
 app.use(bodyparser());
 
-app.use(router.routes());
+app.use(static(path.join(__dirname, '/static')));
+
+app.use(() => console.log(1111))
+
+app.use(routers.routes());
+
+app.use(routers.allowedMethods());
 
 app.listen(3000, () => {
   console.log('Koa is listening in http://localhost:3000')
