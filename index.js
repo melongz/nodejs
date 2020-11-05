@@ -11,48 +11,23 @@ const bodyparser = require('koa-bodyparser'); // 解析post请求参数
 
 const app = new Koa();
 const routers = new Router();
+const STATIC_PATH = '/static';
 
 routers
-  .get('/', async (ctx, next) => {
-    ctx.body = fs.readFileSync('./static/index.html', 'utf8');
-  })
-  .post('/api/personInfo', async (ctx, next) => {
+  .post('/api/userInfo', async (ctx, next) => {
     ctx.body = ctx.request.body;
   })
 
-app.use(async (ctx, next) => {
-  const start = new Date().getTime();
-  console.log('开始请求');
-  await next();
-  const time = new Date().getTime() - start;
-  console.log('请求花费时间：', ctx.url,  time);
-});
-
-
-app.use(async (ctx, next) => {
-  console.log(2);
-  await next();
-  console.log(3);
-})
-
-app.use(async (ctx, next) => {
-  console.log(4);
-  await next();
-  console.log(5);
-})
+app.use(static(path.join(__dirname, STATIC_PATH)));
 
 app.use(bodyparser());
-
-app.use(static(path.join(__dirname, '/static')));
-
-app.use(() => console.log(1111))
 
 app.use(routers.routes());
 
 app.use(routers.allowedMethods());
 
 app.on('error', err => {
-  console.log('error: ', err);
+  console.log('出错了: ', err);
 });
 
 app.listen(3000, () => {
