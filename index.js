@@ -30,7 +30,7 @@ app.on('error', err => {
   console.log('出错了: ', err);
 });
 
-app.listen(3000, () => {
-  console.log('Koa is listening in http://localhost:3000')
+app.listen(80, () => {
+  console.log('Koa is listening in http://localhost:80')
 });
 
