@@ -51,6 +51,10 @@ app.use(routers.routes());
 
 app.use(routers.allowedMethods());
 
+app.on('error', err => {
+  console.log('error: ', err);
+});
+
 app.listen(3000, () => {
   console.log('Koa is listening in http://localhost:3000')
 });
