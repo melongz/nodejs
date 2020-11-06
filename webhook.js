@@ -17,18 +17,10 @@ handler.on('error', function (err) {
 
 handler.on('push', function (event) {
   // 保证是main分支的push行为才会去更新代码
-  console.log('webhook', new Date());
+  console.log('提交时间：', event.payload.head_commit.timestamp);
   if (event.payload && event.payload.ref === 'refs/heads/main') {
-    console.log('pull');
-    runCommand('sh', ['./deploy.sh'], function( txt ){
-      console.log('txt', txt);
-    });
+    console.log('提交信息：', event.payload.head_commit.message);
+    spawn('sh', ['./deploy.sh']);
   }
 });
 
-function runCommand( cmd, args, callback ){
-  var child = spawn( cmd, args );
-  var resp = 'Deploy OK';
-  child.stdout.on('data', function( buffer ){ resp += buffer.toString(); });
-  child.stdout.on('end', function(){ callback( resp ) });
-}
