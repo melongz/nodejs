@@ -16,5 +16,6 @@ handler.on('error', function (err) {
 });
 
 handler.on('push', function (event) {
+  console.log(event);
   spawn('sh', ['./deploy.sh']);
 });
