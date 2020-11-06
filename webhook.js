@@ -16,18 +16,5 @@ handler.on('error', function (err) {
 });
 
 handler.on('push', function (event) {
-  console.log('Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref);
-
-  runCommand('sh', ['./deploy.sh'], function( txt ){
-    console.log(txt);
-  });
+  spawn('sh', ['./deploy.sh']);
 });
-
-function runCommand( cmd, args, callback ){
-  const child = spawn( cmd, args );
-  let resp = 'Deploy OK';
-  child.stdout.on('data', function( buffer ){ resp += buffer.toString(); });
-  child.stdout.on('end', function(){ callback( resp ) });
-}
