@@ -17,7 +17,7 @@ handler.on('error', function (err) {
 
 handler.on('push', function (event) {
   // 保证是main分支的push行为才会去更新代码
-  console.log('webhook', 123,  new Date());
+  console.log('webhook', 123);
   if (event.payload && event.payload.ref === 'refs/heads/main') {
     console.log('pull');
     runCommand('sh', ['./deploy.sh'], function( txt ){
