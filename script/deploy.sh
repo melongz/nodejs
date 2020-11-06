@@ -1,5 +1,7 @@
 #! /bin/bash
 
+cd /home/nodejs
+
 git pull origin main
 
 yarn
