@@ -11,7 +11,7 @@ const bodyparser = require('koa-bodyparser'); // 解析post请求参数
 
 const app = new Koa();
 const routers = new Router();
-const STATIC_PATH = '/static';
+const STATIC_PATH = '../static';
 
 routers
   .post('/api/userInfo', async (ctx, next) => {

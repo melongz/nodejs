@@ -1,10 +1,9 @@
 {
-  "exec": "node index.js",
+  "exec": "node ./serve/index.js",
   "restartable": "rs",
   "verbose": true,
   "watch": [
-    "index.js",
-    "src/"
+    "index.js"
   ],
   "ignore": [],
   "delay": "1000",
