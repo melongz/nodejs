@@ -20,6 +20,6 @@ handler.on('push', function (event) {
   console.log('webhook');
   if (event.payload && event.payload.ref === 'refs/heads/main') {
     console.log('pull');
-    spawn('sh', ['./deploy.sh']);
+    spawn('sh', ['. ./deploy.sh']);
   }
 });
