@@ -1,5 +1,5 @@
 const http = require('http');
-const spawn = require('child_process').spawn;
+const child_process = require('child_process');
 const createHandler = require('github-webhook-handler');
 
 const handler = createHandler({ path: '/webhook', secret: 'zml@12345' });
@@ -20,7 +20,8 @@ handler.on('push', function (event) {
   console.log('提交时间：', event.payload.head_commit.timestamp);
   if (event.payload && event.payload.ref === 'refs/heads/main') {
     console.log('提交信息：', event.payload.head_commit.message);
-    spawn('sh', ['./deploy.sh']);
+    child_process.exec('git pull && yarn')
+    // child_process.spawn('sh', ['./deploy.sh']);
   }
 });
 
