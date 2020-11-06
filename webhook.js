@@ -16,12 +16,11 @@ handler.on('error', function (err) {
 });
 
 handler.on('push', function (event) {
-  // 保证是main分支的push行为才会去更新代码
   console.log('提交时间：', event.payload.head_commit.timestamp);
+  // 保证是main分支的push行为才会去更新代码
   if (event.payload && event.payload.ref === 'refs/heads/main') {
     console.log('提交信息：', event.payload.head_commit.message);
     child_process.exec('git pull && yarn')
-    // child_process.spawn('sh', ['./deploy.sh']);
   }
 });
 
