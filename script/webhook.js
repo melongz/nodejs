@@ -20,6 +20,15 @@ handler.on('push', function (event) {
   console.log('webhook', 123,  new Date());
   if (event.payload && event.payload.ref === 'refs/heads/main') {
     console.log('pull');
-    spawn('sh', ['./deploy.sh']);
+    runCommand('sh', ['./deploy.sh'], function( txt ){
+      console.log('txt', txt);
+    });
   }
 });
+
+function runCommand( cmd, args, callback ){
+  var child = spawn( cmd, args );
+  var resp = 'Deploy OK';
+  child.stdout.on('data', function( buffer ){ resp += buffer.toString(); });
+  child.stdout.on('end', function(){ callback( resp ) });
+}
